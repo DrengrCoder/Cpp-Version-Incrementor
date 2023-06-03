@@ -22,14 +22,6 @@ int main(int argc, char* argv[]){
         exit(0);
     }
 
-    log << "Test logging line";
-
-#pragma GCC diagnostic ignored "-Wunused-variable"
-    int _q = 0;
-#pragma GCC diagnostic pop
-
-    ilog << "A second log line";
-
     LogShutdown;
     return 0;
 }

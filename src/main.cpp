@@ -7,8 +7,7 @@ LogSettings LOG_SETTINGS;
 int main(int argc, char* argv[]){
     std::cout << "Testing line\n";
     
-    // TODO:    Continue testing
-    // FIXME:   Write examplary code
+    //  TODO:   Need to
 
     LOG_SETTINGS.ls_use_working_dir = false;
     LOG_SETTINGS.ls_print_to_file = false;

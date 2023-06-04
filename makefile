@@ -85,7 +85,7 @@
 ########################## Basic variable definition ###########################
 
 # Program executable name
-TARGET_EXEC := MyProgram
+TARGET_EXEC := VersionIncrementor
 
 # Removal flags
 RM := rm -rf
@@ -250,7 +250,7 @@ rebuild_all_and_runtests: rebuild_all run_tests
 
 # Install the files into the includes directory
 # install:
-# 	@echo Installing C++ Files to includes directory
+#	@echo Installing C++ Files to \"$(at)\"
 # 	@mkdir -p $(at)
 # 	@cp src/* $(at)
 

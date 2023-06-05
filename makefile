@@ -82,51 +82,19 @@
 #	prerequisite to the recipe that starts compiling test files.
 
 ################################################################################
-######################### Edit debugger configuration ##########################
-
-# The debugger can be configured after installing gdb on the WSL and the only
-# working debugger configured at time of writing is the configuration file for
-# tasks.json that will run the debugger on a single file, so you should always
-# run the debugger from your main.cpp file - this is the only one that attaches
-# to your running program within the debugger so breakpoints get hit.
-
-# After installing gdb, go to your main.cpp and either hit F5 or use the drop-
-# down button in the top right of the file window. You'll be prompted to select
-# a compiler for the debugger from the command palette that extends down from
-# the top centre of the screen, select the appropriate one for you and then go
-# to the tasks.json file that will be generated under the .vscode folder.
-
-# Your debugger is already working but you'll want to change a few file paths in
-# here so you don't clutter the project and start tracking things unnecessarily.
-# First change the 'cwd' variable under 'options' to be:
-#		"${workspaceFolder}/build/dbg"
-# Then change the last argument in the args var to:
-#		"${workspaceFolder}/build/dbg/${fileBasenameNoExtension}"
-# So the debugger file goes to the correct place for later cleaning.
-
-# When running the debugger with the custom log.h file, you will want to make 
-# sure the 'use working dir' flag is set to false, otherwise LogFiles folders
-# are generated in places we don't want them to be, but these folders and 
-# everything in them are added to the gitignore anyway.
-
-################################################################################
 ########################## Basic variable definition ###########################
 
-##### Comments #####
-#	Should not put comments inline with code as this changes how the variables 
-#	are defined and can cause build errors. Always declare inline comments above
-#	the code it describes to avoid this issue.
-
-#	Set var docs: https://www.gnu.org/software/make/manual/html_node/Setting.html
-
 # Program executable name
-TARGET_EXEC := MyProgram
+TARGET_EXEC := VersionIncrementor
 
 # Removal flags
 RM := rm -rf
 
 ################################################################################
 ############################# Directory variables ##############################
+
+# Install directory
+at ?= /usr/local/include/dylanclibs
 
 # Directories
 #	Base directories
@@ -156,13 +124,6 @@ TEST_EXECS := $(TEST_SRCS:$(TEST_DIR)/%.cpp=%)
 ################################################################################
 ################################ Compiler flags ################################
 
-################## C ###################
-# C Compiler - This is already a default, override as needed with extra flags
-#CC := cc
-# Extra C Compiler Flags
-#CFLAGS :=
-########################################
-
 ################# C++ ##################
 # C++ Compiler - This is already a default, override as needed with extra flags
 #CXX := g++
@@ -185,32 +146,15 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 # 	These files will have .d instead of .o as the output.
 CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
-# Linker Flags
-#LDFLAGS :=
-
 ########################################
 
 ################################################################################
 ############################## Main build recipe ###############################
 
-# Use this to test things so make call this recipe first
-# testrecipe:
-# 	@echo Test recipe called...
-# 	@echo $(INC_FLAGS)
-
-##### Comments #####
-#	Defining this as the first command / target means this will be considered as
-#	the 'main build' command, as it will build the main executable. This is the
-#	first command / target that 'make' discovers and will run only this when
-#	using 'make' without following it with a specifically named command.
-
-#	Only one command should exist here, the first command you wish to run when
-#	using default 'make'.
+# Default make target to increment version number, clean and rebuild
+main_target: increment_version_build clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
 
 # Build target program executable
-#	Object files are a prerequisite and will attempt to build them first. The
-#	$(OBJS) var has been defined above and it will look for this target when
-#	attempting to build.
 $(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS)
 	@echo Building \"$(TARGET_EXEC)\" executable.....
 	@$(CXX) $(OBJS) -o $@
@@ -220,24 +164,7 @@ $(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS)
 ################################################################################
 ############################ Other target recipe's #############################
 
-##### Comments #####
-#	Additional build target recipes should be decalred here. Targets like
-#	libraries, dependencies, target / object files, and other targets that need
-#	to be built or compiled should be defined here.
-
-#	According to a stackoverflow post, defining prerequisites with the pipe is
-#	called order-only-prerequisites. This is required to separate the command
-#	definitions for each prerequisite and may be required from time to time.
-
-#	Not able to use $(OBJS) as part of the left-hand side of this recipe target
-#	because the $(OBJS) variable already contains a list of explicitly named
-#	items, instead the '%' symbol here will place those names in the same part 
-#	on the right-hand side of the recipe target after the $(SRC_DIR) variable.
-
 # Build object files from source
-#	The $(OBJS) var defined above expands to the left hand side of this target
-#	recipe so the $(OBJS) prerequisite to the main target recipe will attempt to
-#	build this first.
 $(BLD_SRC_DIR)/obj/%.cpp.o: $(SRC_DIR)/%.cpp | announce_compiling_main make_directories
 	@echo Making object file: $@
 	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
@@ -250,24 +177,20 @@ $(TEST_EXECS): announce_compiling_tests
 ################################################################################
 ################################ Phony targets #################################
 
-##### Comments #####
-#	Not all custom commands need to be defined as Phony targets but it is good
-#	practice in case a file name is defined that matches one of these custom
-#	make command names.
-
 # Define these custom commands
-.PHONY: build tests tests_and_runtests all all_and_runtests \
+.PHONY: main_target build tests tests_and_runtests all all_and_runtests \
 	clean clean_tests clean_all \
 	rebuild rebuild_tests rebuild_all \
 	rebuild_tests_and_runtests rebuild_all_and_runtests \
-	run_tests make_directories clear_log_files \
+	major minor patch \
+	increment_version_major increment_version_minor \
+	increment_version_patch increment_version_build \
+	install run_tests make_directories clear_log_files \
 	announce_compiling_main announce_compiling_tests
+
 
 ################################################################################
 ############################ Build command recipe's ############################
-
-##### Comments #####
-#	Specify only commands that will build some files here.
 
 # Build main project / executable
 build: $(BLD_SRC_DIR)/$(TARGET_EXEC)
@@ -289,9 +212,6 @@ all_and_runtests: tests_and_runtests
 
 ################################################################################
 ############################ Clean command recipe's ############################
-
-##### Comments #####
-#	Only remove files from various directories
 
 # Clean build folder
 #	Additionally deletes everything in the dbg folder
@@ -317,11 +237,6 @@ clean_all: clean_tests clean
 ################################################################################
 ########################### Rebuild command recipe's ###########################
 
-##### Comments #####
-#	Useful to have the 'clean' commands separate from the 'build' commands when 
-#	working on large code bases. These commands will run 'clean' and 'build' at
-#	once.
-
 # Rebuild main target - clean and build
 rebuild: clean build
 
@@ -338,11 +253,40 @@ rebuild_tests_and_runtests: rebuild_tests run_tests
 rebuild_all_and_runtests: rebuild_all run_tests
 
 ################################################################################
+###################### Increment version number commands #######################
+
+major: increment_version_major clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
+
+minor: increment_version_minor clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
+
+patch: increment_version_patch clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
+
+increment_version_major:
+	@echo Incrementing major...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n MAJOR
+
+increment_version_minor:
+	@echo Incrementing minor...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n MINOR
+
+increment_version_patch:
+	@echo Incrementing patch...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n PATCH
+
+# Increment build version number
+#	Use this as a prerequisite to the main make command recipe
+increment_version_build:
+	@echo Incrementing build...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h
+
+################################################################################
 ######################### Additional command recipe's ##########################
 
-##### Comments #####
-#	This should be a list of misc commands that do not fit under another 
-#	category
+# Install the files into the includes directory
+install:
+	@echo Installing Version Incrementor to: \"$(at)\"...
+	@mkdir -p $(at)
+	@cp ./build/src/VersionIncrementor $(at)
 
 # Run test files
 #	This assumes the test files have already been built by some other command.
@@ -355,18 +299,6 @@ run_tests:
 	done
 	@echo Tests finished running, see console output for details.
 	@echo "####################################################################"
-
-# Makes the build directories if they don't exist
-#	Standard practice is to have git ignore the build folders so version control
-#	has less arbitrary files to track - this means any time someone pulls the
-#	project from a repo, these folders won't exist, so this command adds them
-#	if they don't exist and the '-p' flag stops the error printing if the folder
-#	already exists. Make it a prerequisite when building object files.
-
-#	The built in compiler generates files for debugging file-by-file and should
-#	be put into another directory. Follow the details above describing how to
-#	configure the debugger and the file paths and make sure the folder is 
-#	generated appropriately.
 
 make_directories:
 	@mkdir -p $(BLD_DIR)

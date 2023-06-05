@@ -50,7 +50,7 @@ int main(int argc, char* argv[]){
     if (!parser.Process()){
         flog << "Failed to parse args.";
     } else {
-        //  Define the strings for the version number options
+        //  Define the strings for the version number options to compare against
         const String ver_build_str = "BUILD";
         const String ver_patch_str = "PATCH";
         const String ver_minor_str = "MINOR";
@@ -60,7 +60,7 @@ int main(int argc, char* argv[]){
         String filepath = parser.GetValue(headerFilePath);
         String verNum = parser.GetValue(versionNumber);
 
-        //  Open and read the file, or create a new one
+        //  Open and read the header file, or create a new one
         std::ifstream ifs;
         ifs.open(filepath.c_str());
 
@@ -70,7 +70,9 @@ int main(int argc, char* argv[]){
         int patch = 0;
         int build = 0;
 
+        //  If we couldn't open the file, it doesn't exist...
         if (!ifs){
+            //  ... So create it and initialise the text
             log << "File does not exist, creating file...";
             std::ofstream ofs;
             ofs.open(filepath.c_str());
@@ -81,19 +83,26 @@ int main(int argc, char* argv[]){
                 << std::endl;
             ofs.close();
         } else {
+            //  If we could open it, it exists, read the data
             log << "File exists, reading data...";
 
+            //  Get each line of the file and append it to a local String object
             std::string output;
             String totalContent;
             while (std::getline(ifs, output)){
                 totalContent += output + "\n";
             }
 
+            //  Split the output on each new line and loop them
             std::vector<String> splitContent = totalContent.split('\n');
             for (String str : splitContent){
+
+                //  Split each line on space to get the parts of the text
                 std::vector<String> lineContent = str.split(' ');
+                //  The numeric value is the last item so get the last item
                 String value = lineContent[lineContent.size() - 1];
 
+                //  Convert the value to an integer and set the appropriate local variable
                 if (str.contains(ver_build_str.c_str())){
                     build = std::stoi(value);
                 } else if (str.contains(ver_patch_str.c_str())){
@@ -108,6 +117,7 @@ int main(int argc, char* argv[]){
 
         ifs.close();
 
+        //  Check which number was requested to be incremented and do the incrementation
         if (strcmp(verNum, ver_build_str.c_str()) == 0){
             log << "Build Number Identified.";
         } else if (strcmp(verNum, ver_patch_str.c_str()) == 0){

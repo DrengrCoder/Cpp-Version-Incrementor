@@ -33,7 +33,7 @@ int main(int argc, char* argv[]){
         {"n", "version number"},
         "Version number to increment.",
         {"MAJOR", "MINOR", "PATCH", "BUILD"},
-        "BUILD");
+        std::string("BUILD"));
 
     Parser parser = Parser(argc, argv, "Automatically increments version numbers "
             "in a header file for a project.");

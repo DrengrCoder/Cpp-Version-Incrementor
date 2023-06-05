@@ -151,8 +151,11 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 ################################################################################
 ############################## Main build recipe ###############################
 
+# Default make target to increment version number, clean and rebuild
+main_target: increment_version_build clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
+
 # Build target program executable
-$(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS) increment_version_build
+$(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS)
 	@echo Building \"$(TARGET_EXEC)\" executable.....
 	@$(CXX) $(OBJS) -o $@
 	@echo Finished building \"$(TARGET_EXEC)\", see output for details.
@@ -175,12 +178,16 @@ $(TEST_EXECS): announce_compiling_tests
 ################################ Phony targets #################################
 
 # Define these custom commands
-.PHONY: build tests tests_and_runtests all all_and_runtests \
+.PHONY: main_target build tests tests_and_runtests all all_and_runtests \
 	clean clean_tests clean_all \
 	rebuild rebuild_tests rebuild_all \
 	rebuild_tests_and_runtests rebuild_all_and_runtests \
-	run_tests make_directories clear_log_files \
+	major minor patch \
+	increment_version_major increment_version_minor \
+	increment_version_patch increment_version_build \
+	install run_tests make_directories clear_log_files \
 	announce_compiling_main announce_compiling_tests
+
 
 ################################################################################
 ############################ Build command recipe's ############################
@@ -246,26 +253,40 @@ rebuild_tests_and_runtests: rebuild_tests run_tests
 rebuild_all_and_runtests: rebuild_all run_tests
 
 ################################################################################
-######################### Additional command recipe's ##########################
+###################### Increment version number commands #######################
 
-# Install the files into the includes directory
-install: build
-	@echo Installing Version Incrementor to: \"$(at)\"...
-	@mkdir -p $(at)
-	@cp ./build/src/VersionIncrementor $(at)
+major: increment_version_major clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
 
-# Increment version number header
-#	This one can be changed, and a duplicate command is created so we don't have
-#	to remember to change it back
-increment_version:
-	@echo Incrementing version...
-	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n BUILD
+minor: increment_version_minor clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
+
+patch: increment_version_patch clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
+
+increment_version_major:
+	@echo Incrementing major...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n MAJOR
+
+increment_version_minor:
+	@echo Incrementing minor...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n MINOR
+
+increment_version_patch:
+	@echo Incrementing patch...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n PATCH
 
 # Increment build version number
 #	Use this as a prerequisite to the main make command recipe
 increment_version_build:
 	@echo Incrementing build...
 	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h
+
+################################################################################
+######################### Additional command recipe's ##########################
+
+# Install the files into the includes directory
+install:
+	@echo Installing Version Incrementor to: \"$(at)\"...
+	@mkdir -p $(at)
+	@cp ./build/src/VersionIncrementor $(at)
 
 # Run test files
 #	This assumes the test files have already been built by some other command.

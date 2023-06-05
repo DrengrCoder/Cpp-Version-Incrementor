@@ -14,6 +14,7 @@ int main(int argc, char* argv[]){
     //  project binary.
     LOG_SETTINGS.ls_use_working_dir = false;
     LOG_SETTINGS.ls_print_to_file = false;
+    LOG_SETTINGS.ls_selected_level = LT_INFO;
     
     try {
         LogInit(argv);
@@ -151,7 +152,6 @@ int main(int argc, char* argv[]){
         }
 
         //  Rewrite the header file, delete it and start again
-        unlink(filepath.c_str());
         std::ofstream ofs;
         ofs.open(filepath.c_str());
         ofs << "#define MAJOR_N " << major << "\n"
@@ -160,6 +160,8 @@ int main(int argc, char* argv[]){
             << "#define BUILD_N " << build << "\n"
             << std::endl;
     }
+
+    ilog << "Finished processing.";
 
     LogShutdown;
     return 0;

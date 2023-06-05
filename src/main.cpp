@@ -166,7 +166,7 @@ int main(int argc, char* argv[]){
             << std::endl;
     }
 
-    ilog << "Finished processing.";
+    ilog << "Incremented version.";
 
     LogShutdown;
     return 0;

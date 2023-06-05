@@ -152,7 +152,7 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 ############################## Main build recipe ###############################
 
 # Build target program executable
-$(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS)
+$(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS) 
 	@echo Building \"$(TARGET_EXEC)\" executable.....
 	@$(CXX) $(OBJS) -o $@
 	@echo Finished building \"$(TARGET_EXEC)\", see output for details.
@@ -249,10 +249,15 @@ rebuild_all_and_runtests: rebuild_all run_tests
 ######################### Additional command recipe's ##########################
 
 # Install the files into the includes directory
-# install:
-#	@echo Installing C++ Files to \"$(at)\"
-# 	@mkdir -p $(at)
-# 	@cp src/* $(at)
+install:
+	@echo Installing Version Incrementor to: \"$(at)\"...
+	@mkdir -p $(at)
+	@cp ./build/src/VersionIncrementor $(at)
+
+# Increment version number header
+increment_version:
+	@echo Incrementing version...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n BUILD
 
 # Run test files
 #	This assumes the test files have already been built by some other command.

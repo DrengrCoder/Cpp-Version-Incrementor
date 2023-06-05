@@ -1,7 +1,9 @@
 #include <iostream>
+#include <fstream>
 
 #include "dylanclibs/log.h"
 #include "dylanclibs/cli_parser.h"
+#include "dylanclibs/string.h"
 
 LogSettings LOG_SETTINGS;
 

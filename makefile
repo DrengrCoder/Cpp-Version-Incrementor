@@ -152,7 +152,7 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 ############################## Main build recipe ###############################
 
 # Build target program executable
-$(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS) 
+$(BLD_SRC_DIR)/$(TARGET_EXEC): $(OBJS) increment_version_build
 	@echo Building \"$(TARGET_EXEC)\" executable.....
 	@$(CXX) $(OBJS) -o $@
 	@echo Finished building \"$(TARGET_EXEC)\", see output for details.
@@ -249,15 +249,23 @@ rebuild_all_and_runtests: rebuild_all run_tests
 ######################### Additional command recipe's ##########################
 
 # Install the files into the includes directory
-install:
+install: build
 	@echo Installing Version Incrementor to: \"$(at)\"...
 	@mkdir -p $(at)
 	@cp ./build/src/VersionIncrementor $(at)
 
 # Increment version number header
+#	This one can be changed, and a duplicate command is created so we don't have
+#	to remember to change it back
 increment_version:
 	@echo Incrementing version...
 	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n BUILD
+
+# Increment build version number
+#	Use this as a prerequisite to the main make command recipe
+increment_version_build:
+	@echo Incrementing build...
+	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h
 
 # Run test files
 #	This assumes the test files have already been built by some other command.

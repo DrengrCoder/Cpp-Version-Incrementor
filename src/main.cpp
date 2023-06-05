@@ -5,6 +5,8 @@
 #include "dylanclibs/cli_parser.h"
 #include "dylanclibs/string.h"
 
+#include "version_number.h"
+
 LogSettings LOG_SETTINGS;
 
 int main(int argc, char* argv[]){
@@ -26,6 +28,9 @@ int main(int argc, char* argv[]){
         exit(0);
     }
 
+    std::stringstream verSs;
+    verSs << MAJOR_N << "." << MINOR_N << "." << PATCH_N << "." << BUILD_N;
+
     ParserOption headerFilePath = ParserOption(
         {"p", "header file path"},
         "The location of the version number header file.",
@@ -39,7 +44,7 @@ int main(int argc, char* argv[]){
         std::string("BUILD"));
 
     Parser parser = Parser(argc, argv, "Automatically increments version numbers "
-            "in a header file for a project.");
+            "in a header file for a project.", verSs.str());
 
     parser.AddHelpOption();
     parser.AddVersionOption();

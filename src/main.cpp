@@ -117,19 +117,48 @@ int main(int argc, char* argv[]){
 
         ifs.close();
 
-        //  Check which number was requested to be incremented and do the incrementation
+        //  Check which number was requested to be incremented and appropriately
+        //      adjust values
         if (strcmp(verNum, ver_build_str.c_str()) == 0){
+
             log << "Build Number Identified.";
+            build++;
+
         } else if (strcmp(verNum, ver_patch_str.c_str()) == 0){
+
             log << "Patch Number Identified.";
+            build = 0;
+            patch++;
+
         } else if (strcmp(verNum, ver_minor_str.c_str()) == 0){
+
             log << "Minor Number Identified.";
+            build = 0;
+            patch = 0;
+            minor++;
+
         } else if (strcmp(verNum, ver_major_str.c_str()) == 0){
+
             log << "Major Number Identified.";
+            build = 0;
+            patch = 0;
+            minor = 0;
+            major++;
+
         } else {
             flog << "Error occurred identifying build number from the parser: \""
                 << verNum << "\".";
         }
+
+        //  Rewrite the header file, delete it and start again
+        unlink(filepath.c_str());
+        std::ofstream ofs;
+        ofs.open(filepath.c_str());
+        ofs << "#define MAJOR_N " << major << "\n"
+            << "#define MINOR_N " << minor << "\n"
+            << "#define PATCH_N " << patch << "\n"
+            << "#define BUILD_N " << build << "\n"
+            << std::endl;
     }
 
     LogShutdown;

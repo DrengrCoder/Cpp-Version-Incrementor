@@ -6,6 +6,7 @@
 - [Versioning System](#versioning-system)
 - [Features](#features)
 - [Make and Install](#make-and-install)
+ - [Dependancies](#dependancies)
 - [Usage](#usage)
  - [Overview](#overview)
  - [Specific Recipe Command Details](#specific-recipe-command-details)
@@ -31,6 +32,10 @@ The program accepts two options: A file path for the header file in a given proj
 1. Run `make build`, to execute the primary build recipe. This will generate the program binary.
 2. Run `make install` to copy or 'install' the binary file in the include directory so an IDE can see it and can be used in your code. Alternatively, use `make install at=/your/chosen/directory/` to install the file in a custom folder location.
 3. Review the [Usage](#usage) section to see how to use this program and get details for other make recipes in this project.
+
+### Dependancies
+
+This program requires the `log.h`, `cli_parser.h`, and `string.h` files to be installed from the C++ Classes project I have developed. The file paths for the include statements in `main.cpp` for those files may need changing depending on your chosen install location.
 
 ## Usage
 

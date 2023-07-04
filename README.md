@@ -30,7 +30,7 @@ The program accepts two options: A file path for the header file in a given proj
 **NOTE:** Due to the nature of command recipe's implemented in this program for testing and demostration purposes, follow these **exact** steps to build the program and install it into the required location.
 
 1. Run `make build`, to execute the primary build recipe. This will generate the program binary.
-2. Run `make install` to copy or 'install' the binary file in the include directory so an IDE can see it and can be used in your code. Alternatively, use `make install at=/your/chosen/directory/` to install the file in a custom folder location.
+2. Run `sudo make install` to copy or 'install' the binary file in the include directory so an IDE can see it and can be used in your code. Alternatively, use `make install at=/your/chosen/directory/` to install the file in a custom folder location.
 3. Review the [Usage](#usage) section to see how to use this program and get details for other make recipes in this project.
 
 ### Dependancies

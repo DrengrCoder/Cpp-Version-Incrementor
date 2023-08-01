@@ -79,7 +79,7 @@ int main(int argc, char* argv[]){
         //  If we couldn't open the file, it doesn't exist...
         if (!ifs){
             //  ... So create it and initialise the text
-            log << "File does not exist, creating file...";
+            clog << "File does not exist, creating file...";
             std::ofstream ofs;
             ofs.open(filepath.c_str());
             ofs << "#define MAJOR_N 0\n"
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]){
             ofs.close();
         } else {
             //  If we could open it, it exists, read the data
-            log << "File exists, reading data...";
+            clog << "File exists, reading data...";
 
             //  Get each line of the file and append it to a local String object
             std::string output;
@@ -127,25 +127,25 @@ int main(int argc, char* argv[]){
         //      adjust values
         if (strcmp(verNum, ver_build_str.c_str()) == 0){
 
-            log << "Build Number Identified.";
+            clog << "Build Number Identified.";
             build++;
 
         } else if (strcmp(verNum, ver_patch_str.c_str()) == 0){
 
-            log << "Patch Number Identified.";
+            clog << "Patch Number Identified.";
             build = 0;
             patch++;
 
         } else if (strcmp(verNum, ver_minor_str.c_str()) == 0){
 
-            log << "Minor Number Identified.";
+            clog << "Minor Number Identified.";
             build = 0;
             patch = 0;
             minor++;
 
         } else if (strcmp(verNum, ver_major_str.c_str()) == 0){
 
-            log << "Major Number Identified.";
+            clog << "Major Number Identified.";
             build = 0;
             patch = 0;
             minor = 0;

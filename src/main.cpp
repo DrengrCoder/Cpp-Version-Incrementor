@@ -16,7 +16,7 @@ int main(int argc, char* argv[]){
     //  project binary.
     LOG_SETTINGS.ls_use_working_dir = false;
     LOG_SETTINGS.ls_print_to_file = false;
-    LOG_SETTINGS.ls_selected_level = LT_INFO;
+    LOG_SETTINGS.ls_selected_level = LogType::LT_INFO;
     
     try {
         LogInit(argv);

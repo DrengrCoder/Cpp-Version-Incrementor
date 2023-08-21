@@ -87,6 +87,9 @@
 # Program executable name
 TARGET_EXEC := VersionIncrementor
 
+# Make directory with -p flag
+MKDIR_P := mkdir -p
+
 # Removal flags
 RM := rm -rf
 
@@ -94,7 +97,7 @@ RM := rm -rf
 ############################# Directory variables ##############################
 
 # Install directory
-at ?= /usr/local/include/dylanclibs
+at ?= /usr/bin
 
 # Directories
 #	Base directories
@@ -301,11 +304,13 @@ run_tests:
 	@echo "####################################################################"
 
 make_directories:
-	@mkdir -p $(BLD_DIR)
-	@mkdir -p $(BLD_DIR)/dbg
-	@mkdir -p $(BLD_SRC_DIR)
-	@mkdir -p $(BLD_SRC_DIR)/obj
-	@mkdir -p $(BLD_TEST_DIR)
+	@$(MKDIR_P) $(SRC_DIR)
+	@$(MKDIR_P) $(TEST_DIR)
+	@$(MKDIR_P) $(BLD_DIR)
+	@$(MKDIR_P) $(BLD_DIR)/dbg
+	@$(MKDIR_P) $(BLD_SRC_DIR)
+	@$(MKDIR_P) $(BLD_SRC_DIR)/obj
+	@$(MKDIR_P) $(BLD_TEST_DIR)
 
 # Remove all the log files to clean the project folders.
 clear_log_files:

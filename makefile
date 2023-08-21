@@ -87,6 +87,9 @@
 # Program executable name
 TARGET_EXEC := VersionIncrementor
 
+# Make directory with -p flag
+MKDIR_P := mkdir -p
+
 # Removal flags
 RM := rm -rf
 
@@ -94,7 +97,7 @@ RM := rm -rf
 ############################# Directory variables ##############################
 
 # Install directory
-at ?= /usr/local/include/dylanclibs
+at ?= /usr/bin
 
 # Directories
 #	Base directories
@@ -263,21 +266,21 @@ patch: increment_version_patch clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
 
 increment_version_major:
 	@echo Incrementing major...
-	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n MAJOR
+	@VersionIncrementor -p ./src/version_number.h -n MAJOR
 
 increment_version_minor:
 	@echo Incrementing minor...
-	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n MINOR
+	@VersionIncrementor -p ./src/version_number.h -n MINOR
 
 increment_version_patch:
 	@echo Incrementing patch...
-	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h -n PATCH
+	@VersionIncrementor -p ./src/version_number.h -n PATCH
 
 # Increment build version number
 #	Use this as a prerequisite to the main make command recipe
 increment_version_build:
 	@echo Incrementing build...
-	@/usr/local/include/dylanclibs/VersionIncrementor -p ./src/version_number.h
+	@VersionIncrementor -p ./src/version_number.h
 
 ################################################################################
 ######################### Additional command recipe's ##########################
@@ -301,11 +304,13 @@ run_tests:
 	@echo "####################################################################"
 
 make_directories:
-	@mkdir -p $(BLD_DIR)
-	@mkdir -p $(BLD_DIR)/dbg
-	@mkdir -p $(BLD_SRC_DIR)
-	@mkdir -p $(BLD_SRC_DIR)/obj
-	@mkdir -p $(BLD_TEST_DIR)
+	@$(MKDIR_P) $(SRC_DIR)
+	@$(MKDIR_P) $(TEST_DIR)
+	@$(MKDIR_P) $(BLD_DIR)
+	@$(MKDIR_P) $(BLD_DIR)/dbg
+	@$(MKDIR_P) $(BLD_SRC_DIR)
+	@$(MKDIR_P) $(BLD_SRC_DIR)/obj
+	@$(MKDIR_P) $(BLD_TEST_DIR)
 
 # Remove all the log files to clean the project folders.
 clear_log_files:

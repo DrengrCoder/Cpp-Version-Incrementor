@@ -6,16 +6,16 @@
 - [Versioning System](#versioning-system)
 - [Features](#features)
 - [Make and Install](#make-and-install)
- - [Dependancies](#dependancies)
+    - [Dependancies](#dependancies)
 - [Usage](#usage)
- - [Overview](#overview)
- - [Specific Recipe Command Details](#specific-recipe-command-details)
- - [Input arguments](#input-arguments)
- - [Examples](#examples)
+    - [Overview](#overview)
+    - [Specific Recipe Command Details](#specific-recipe-command-details)
+    - [Input arguments](#input-arguments)
+    - [Examples](#examples)
 
 ## Description
 
-A project that builds a binary for the automated version incrementor program.
+A project that builds a binary for the automated version incrementor program. The project binary should be included in the C++ Library project by default, and installed in the /usr/bin directory.
 
 ## Versioning System
 

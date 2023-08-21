@@ -29,7 +29,7 @@ int main(int argc, char* argv[]){
     }
 
     std::stringstream verSs;
-    verSs << MAJOR_N << "." << MINOR_N << "." << PATCH_N << "." << BUILD_N;
+    verSs << VERSION_MAJOR_N << "." << VERSION_MINOR_N << "." << VERSION_PATCH_N;
 
     ParserOption headerFilePath = ParserOption(
         {"p", "header file path"},
@@ -82,10 +82,10 @@ int main(int argc, char* argv[]){
             clog << "File does not exist, creating file...";
             std::ofstream ofs;
             ofs.open(filepath.c_str());
-            ofs << "#define MAJOR_N 0\n"
-                << "#define MINOR_N 0\n"
-                << "#define PATCH_N 0\n"
-                << "#define BUILD_N 0\n"
+            ofs << "#define VERSION_MAJOR_N 0\n"
+                << "#define VERSION_MINOR_N 0\n"
+                << "#define VERSION_PATCH_N 0\n"
+                << "#define VERSION_BUILD_N 0\n"
                 << std::endl;
             ofs.close();
         } else {
@@ -159,10 +159,10 @@ int main(int argc, char* argv[]){
         //  Rewrite the header file, delete it and start again
         std::ofstream ofs;
         ofs.open(filepath.c_str());
-        ofs << "#define MAJOR_N " << major << "\n"
-            << "#define MINOR_N " << minor << "\n"
-            << "#define PATCH_N " << patch << "\n"
-            << "#define BUILD_N " << build << "\n"
+        ofs << "#define VERSION_MAJOR_N " << major << "\n"
+            << "#define VERSION_MINOR_N " << minor << "\n"
+            << "#define VERSION_PATCH_N " << patch << "\n"
+            << "#define VERSION_BUILD_N " << build << "\n"
             << std::endl;
     }
 

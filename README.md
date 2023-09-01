@@ -58,10 +58,10 @@ You should carefully examine the format and order of make recipe's within this p
 
 ### Examples
 
-- `/usr/local/include/dylanclibs/VersionIncrementor -h` shows the help information.
-- `/usr/local/include/dylanclibs/VersionIncrementor -v` shows the version information.
-- `/usr/local/include/dylanclibs/VersionIncrementor -n -h` shows the help information for the `-n` argument.
-- `/path/to/VersionIncrementor -p /path/to/project/header.h` will increment numbers in the file in the specified path. If the `-n` argument is not present, it assumed `BUILD`.
-- `/path/to/VersionIncrementor -p ./src/header.h` will increment the build number in the file in the specified path, and in this instance, the specified path has been written to go from the makefile's location. So within the given project a makefile is run for, the sub folder _/src/_ with the header file _header.h_ is used in _this_ project.
-- `/path/to/VersionIncrementor -p /path/to/project/header.h -n MAJOR` will increment the major number in the header file.
-- `/path/to/VersionIncrementor -p /path/to/project/header.h -n PATCH` will increment the patch number in the header file.
+- `VersionIncrementor -h` shows the help information.
+- `VersionIncrementor -v` shows the version information.
+- `VersionIncrementor -n -h` shows the help information for the `-n` argument.
+- `VersionIncrementor -p /path/to/project/header.h` will increment numbers in the file in the specified path. If the `-n` argument is not present, it assumed `BUILD`.
+- `VersionIncrementor -p ./src/header.h` will increment the build number in the file in the specified path, and in this instance, the specified path has been written to go from the makefile's location. So within the given project a makefile is run for, the sub folder _/src/_ with the header file _header.h_ is used in _this_ project.
+- `VersionIncrementor -p /path/to/project/header.h -n MAJOR` will increment the major number in the header file.
+- `VersionIncrementor -p /path/to/project/header.h -n PATCH` will increment the patch number in the header file.

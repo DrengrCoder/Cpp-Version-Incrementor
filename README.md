@@ -41,13 +41,25 @@ This program requires the `log.h`, `cli_parser.h`, and `string.h` files to be in
 
 ### Overview
 
-Once installed into the directory of your choice, you will be able to execute the binary file from anywhere, including from within makefile's, you will need to remember the binary file path for use in your makefile later.
+Once installed into the directory of your choice, you will be able to execute the binary file from anywhere, or you can install it in the `/usr/bin` directory so it is accessible in the Linux terminal window like any other system software, including from within makefile's, but you will need to remember the binary file path to use in your makefile later if you do not install it in the normal `/usr/bin` folder.
 
 ### Specific Recipe Command Details
 
 Reviewing the list of make recipe's in this project, you'll notice several additions compared to other projects I have developed: `main_target`, `major`, `minor`, `patch`, `increment_version_major`, `increment_version_minor`, `increment_version_patch` and `increment_version_build`. The latter 4 recipes specifically show you how to call the version incrementor from a makefile, while the remaining recipe's simply call one of the `increment` recipe's before calling `clean` and then building the main target executable.
 
-The `clean` recipe must be called before building the final executable because the version number header has been updated, but using the standard `make` or `make build` commands don't necessarily detect a change and therefore won't attempt to rebuild the main target with the new header file data. The `main_target` recipe has been declared above the standard main target executable build step, so every time you run `make`, it will call the recipe to increment the build number, clean the project and rebuild the target executable with the latest version number data.
+```
+patch: increment_version_patch clean $(BLD_SRC_DIR)/$(TARGET_EXEC)
+
+increment_version_patch:
+	@echo Incrementing patch...
+	@VersionIncrementor -p ./src/version_number.h -n PATCH
+
+increment_version_build:
+	@echo Incrementing build...
+	@VersionIncrementor -p ./src/version_number.h
+```
+
+The `clean` recipe must be called before building the final executable because the version number header has been updated, but using the standard `make` or `make build` commands don't always detect a change and therefore won't attempt to rebuild the main target with the new header file data. The `main_target: increment_version_build clean $(BLD_SRC_DIR)/$(TARGET_EXEC)` recipe has been declared above the standard main target executable build step, so every time you run `make`, it will call this recipe to increment the build number, clean the project and rebuild the target executable with the latest version number data.
 
 You should carefully examine the format and order of make recipe's within this project if you want to replicate these simple features, but you are free to implement this program and use it as you desire.
 

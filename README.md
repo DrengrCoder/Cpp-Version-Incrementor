@@ -1,4 +1,4 @@
-# Version Incrementor
+# Version Incrementor v1.0.0
 
 ## Table of Contents
 

@@ -1,4 +1,4 @@
-# Version Incrementor v1.0.0
+# Version Incrementor v1.0.1
 
 ## Table of Contents
 
@@ -6,7 +6,7 @@
 - [Versioning System](#versioning-system)
 - [Features](#features)
 - [Make and Install](#make-and-install)
-    - [Dependancies](#dependancies)
+    - [Dependencies](#dependancies)
 - [Usage](#usage)
     - [Overview](#overview)
     - [Specific Recipe Command Details](#specific-recipe-command-details)
@@ -27,13 +27,13 @@ The program accepts two options: A file path for the header file in a given proj
 
 ## Make and Install
 
-**NOTE:** Due to the nature of command recipe's implemented in this program for testing and demostration purposes, follow these **exact** steps to build the program and install it into the required location.
+**NOTE:** Due to the nature of command recipe's implemented in this program for testing and demonstration purposes, follow these **exact** steps to build the program and install it into the required location.
 
 1. Run `make build`, to execute the primary build recipe. This will generate the program binary.
 2. Run `sudo make install` to copy or 'install' the binary file in the include directory so an IDE can see it and can be used in your code. Alternatively, use `make install at=/your/chosen/directory/` to install the file in a custom folder location.
 3. Review the [Usage](#usage) section to see how to use this program and get details for other make recipes in this project.
 
-### Dependancies
+### Dependencies
 
 This program requires the `log.h`, `cli_parser.h`, and `string.h` files to be installed from the C++ Classes project I have developed. The file paths for the include statements in `main.cpp` for those files may need changing depending on your chosen install location.
 
@@ -65,7 +65,7 @@ You should carefully examine the format and order of make recipe's within this p
 
 ### Input arguments
 
-1. The `-p` argument, or `--header-file-path`, defines the full filepath (including file name) to the header file where the version numbers are stored as macro's. This file is created if it does not exist, and you should let this program create that file upon first use so you can understand the format expected by this program.
+1. The `-p` argument, or `--header-file-path`, defines the full file path (including file name) to the header file where the version numbers are stored as macro's. This file is created if it does not exist, and you should let this program create that file upon first use so you can understand the format expected by this program.
 2. The `-n` argument, or `--version-number`, defines the version number you want to increment at this time. `MAJOR`, `MINOR`, `PATCH` and `BUILD` are the only options, and you should review the [Versioning System](#versioning-system) section for more information.
 
 ### Examples

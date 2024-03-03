@@ -84,10 +84,13 @@ int main(int argc, char* argv[]) {
             clog << "File does not exist, creating file...";
             std::ofstream ofs;
             ofs.open(filepath.c_str());
-            ofs << "#define VERSION_MAJOR_N 0\n"
+            ofs << "#ifndef __DAM_DRENGR_CODER_SINGLE_INCLUDE_CUSTOM_VERSION_NUMBER_H__\n"
+                << "#define __DAM_DRENGR_CODER_SINGLE_INCLUDE_CUSTOM_VERSION_NUMBER_H__\n\n"
+                << "#define VERSION_MAJOR_N 0\n"
                 << "#define VERSION_MINOR_N 0\n"
                 << "#define VERSION_PATCH_N 0\n"
-                << "#define VERSION_BUILD_N 0\n"
+                << "#define VERSION_BUILD_N 0\n\n"
+                << "#endif // __DAM_DRENGR_CODER_SINGLE_INCLUDE_CUSTOM_VERSION_NUMBER_H__\n"
                 << std::endl;
             ofs.close();
         } else {

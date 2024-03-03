@@ -3,6 +3,7 @@
 ## Table of Contents
 
 - [Description](#description)
+- [Change Log]()
 - [Versioning System](#versioning-system)
 - [Features](#features)
 - [Make and Install](#make-and-install)
@@ -17,9 +18,22 @@
 
 A project that builds a binary for the automated version incrementor program. The project binary should be included in the C++ Library project by default, and installed in the /usr/bin directory.
 
+## Change Log
+
+v1.0.0:
+- Initial release including binary to automatically increment version numbers and create the original header file if it doesn't exist.
+
+v1.0.1:
+- Updated directory include paths.
+- Fixed mistake with included licenses.
+- Fixed typo's in readme's.
+
+v1.0.2:
+- Adding include guard for version number header by default.
+
 ## Versioning System
 
-This Version Incrementor operates based on the [Semantic Versioning](https://github.com/semver/semver/blob/master/semver.md) standard. A MAJOR.MINOR.PATCH.BUILD version numbering system has been adopted, where the MAJOR.MINOR.PATCH number is based on the Semantic Versioning documentation standard, and the **Build** number is incremented every time the _build_ command is used. The **Build** can be incremented in one of the following ways, but is not limited to: A Pre-build step in a comprehensive IDE, or a prerequisite step in a Make or CMake based project.
+This Version Incrementor operates based on the [Semantic Versioning](https://github.com/semver/semver/blob/master/semver.md) standard. A MAJOR.MINOR.PATCH.BUILD version numbering system has been adopted, where the MAJOR.MINOR.PATCH number is based on the Semantic Versioning documentation standard, and the **Build** number is incremented every time the _build_ command is used. The **Build** can be incremented in one of the following ways (this list is not exhaustive): A Pre-build step in a comprehensive IDE, or a prerequisite step in a Make or CMake based project.
 
 ## Features
 

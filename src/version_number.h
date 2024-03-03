@@ -3,7 +3,7 @@
 
 #define VERSION_MAJOR_N 1
 #define VERSION_MINOR_N 0
-#define VERSION_PATCH_N 0
-#define VERSION_BUILD_N 1
+#define VERSION_PATCH_N 2
+#define VERSION_BUILD_N 0
 
 #endif // __CUSTOM_VERSION_NUMBER_H__
